@@ -54,7 +54,7 @@
       },
       // 瀑布流宽度
       waterfallWidth: {
-        type: Number,
+        type: [Number, String],
         default: 600
       }
     },
