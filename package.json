@@ -10,6 +10,10 @@
     "vue",
     "waterfall"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssfe-team/ss-waterfall.git"
+  },
   "author": "Chuanfeng",
   "license": "ISC"
 }
