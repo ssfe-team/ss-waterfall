@@ -211,9 +211,4 @@
     height: 100%;
     margin: 0 auto;
   }
-
-  .waterfall-item {
-    position: absolute;
-    display: inline-block;
-  }
 </style>
