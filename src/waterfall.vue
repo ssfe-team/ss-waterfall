@@ -212,7 +212,7 @@
     margin: 0 auto;
   }
 
-  .item {
+  .waterfall-item {
     position: absolute;
     display: inline-block;
   }
