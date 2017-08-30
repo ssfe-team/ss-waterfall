@@ -15,5 +15,9 @@
     "url": "git+https://github.com/ssfe-team/ss-waterfall.git"
   },
   "author": "Chuanfeng",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ssfe-team/ss-waterfall/issues"
+  },
+  "homepage": "https://github.com/ssfe-team/ss-waterfall#readme"
 }
