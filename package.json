@@ -1,0 +1,15 @@
+{
+  "name": "ss-waterfall",
+  "version": "1.0.0",
+  "description": "An Vue waterfall component",
+  "main": "src/waterfall.vue",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vue",
+    "waterfall"
+  ],
+  "author": "Chuanfeng",
+  "license": "ISC"
+}
