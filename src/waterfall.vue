@@ -42,6 +42,10 @@
         type: Number,
         default: 50
       },
+      minHeight: { // 每个元素的最小高度
+        type: Number,
+        default: 18
+      },
       // 容器矩形
       boxRect: {
         type: Object,
@@ -131,6 +135,7 @@
           }
 
           height = width / ratio;
+          height = height < this.minHeight ? this.minHeight : height; // 设置最小高度
           left = (this.colWidth + this.boxRect.right) * insertIndex;
 
           switch (cols) {
