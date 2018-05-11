@@ -19,11 +19,15 @@
     data() {
       return {
         showData: null, // 经处理后的数据
-        colHeights: [0, 0, 0], // 列高度
+        colHeights: null, // 列高度
         maxHeight: 0
       }
     },
     props: {
+      maxColNum: {
+        type: Number,
+        default: 3
+      },
       propData: { // 未经处理的数据
         type: Array,
         required: true,
@@ -69,7 +73,11 @@
     },
     methods: {
       computeShow() {
-        this.colHeights = [0, 0, 0]; // 列高度
+        let arr = new Array(this.maxColNum);
+        for(let i = 0; i < this.maxColNum; i++) {
+          arr[i] = 0;
+        }
+        this.colHeights = arr; // 列高度
 
         let width, height, // 元素尺寸
             insertIndex, // 元素从该列数插入
@@ -97,6 +105,7 @@
             }
           }
           if (cols === 2) { // 初始该占两列
+          /*
             if (minColIndex === 0) {
               if (this.colHeights[1] - this.colHeights[0] > this.maxDiff) {
                 cols = 1;
@@ -127,7 +136,27 @@
                 insertIndex = 1;
                 midColHeight = this.colHeights[1];
               }
+            }*/
+            let beforeIndex = minColIndex - 1,
+              afterIndex = minColIndex + 1,
+              beforeHeight = this.colHeights[beforeIndex],
+              afterHeight = this.colHeights[afterIndex]
+
+            if(beforeHeight != undefined && beforeHeight - minColHeight < this.maxDiff) {
+              width = this.colWidth * 2 + this.boxRect.right * (cols - 1)
+              insertIndex = beforeIndex
+              midColHeight = beforeHeight
+            } else {
+              cols = 1
             }
+
+            if(cols == 1 && afterHeight != undefined && afterHeight - minColHeight < this.maxDiff) {
+              cols = 2
+              width = this.colWidth * 2 + this.boxRect.right * (cols - 1)
+              insertIndex = minColIndex
+              midColHeight = afterHeight
+            }
+
           }
           if (cols === 1) { // 初始该占一列
             width = this.colWidth + this.boxRect.right * (cols - 1);
@@ -176,6 +205,7 @@
         } else if (ratio < this.propRatio[0]) {
           cols = 1;
         }
+        if(cols > this.maxColNum) cols = this.maxColNum
         return cols;
       },
       getMinColHeight() { // 获取当前最小高度的列的高度
@@ -197,7 +227,7 @@
         }
       },
       getColWidth() { // 获取列宽度
-        this.colWidth = (this.waterfallWidth - this.boxRect.right * 2) / 3;
+        this.colWidth = (this.waterfallWidth - this.boxRect.right * (this.maxColNum - 1)) / this.maxColNum;
       }
     },
     watch: {
