@@ -1,5 +1,5 @@
 <template>
-  <div class="waterfall" :style="{width: waterfallWidth + 'px',height:maxHeight+'px'}">
+  <div class="waterfall" :style="{width: waterfallWidth + 'px', height:maxHeight + 'px'}">
     <div
         class="waterfall-item"
         v-for="(item, index) in showData"
@@ -36,7 +36,7 @@
           return []
         }
       },
-      propRatio: { // 根据比例决定默认占几列，大于arr[1]占三列，小于arr[0]占一列
+      propRatio: { // 根据宽高比例决定默认占几列，大于arr[1]占满，小于arr[0]占一列
         type: Array,
         default() {
           return [2, 3]
@@ -66,13 +66,22 @@
         default: 600
       }
     },
+    computed: {
+      colWidth() {
+        return (this.waterfallWidth - this.boxRect.right * (this.maxColNum - 1)) / this.maxColNum
+      }
+    },
+    watch: {
+      propData() {
+        this.computeShow(); // 计算元素显示尺寸、位置
+      }
+    },
     mounted() {
-      this.showData = []; // 实际显示的图片尺寸数组
-      this.getColWidth(); // 获取列宽度
       this.computeShow(); // 计算元素显示尺寸、位置
     },
     methods: {
       computeShow() {
+        this.showData = []; // 实际显示的图片尺寸数组        
         let arr = new Array(this.maxColNum);
         for(let i = 0; i < this.maxColNum; i++) {
           arr[i] = 0;
@@ -208,34 +217,19 @@
         if(cols > this.maxColNum) cols = this.maxColNum
         return cols;
       },
-      getMinColHeight() { // 获取当前最小高度的列的高度
-        let self = this,
-            minHeight = Math.min.apply(null, self.colHeights);
-        return minHeight;
+      getMinColHeight() { // 获取当前最矮列高度
+        return Math.min(...this.colHeights);
       },
-      getMaxColHeight() { // 获取当前最大高度的列的高度
-        let self = this,
-            maxHeight = Math.max.apply(null, self.colHeights);
-        return maxHeight;
+      getMaxColHeight() { // 获取当前最高列高度
+        return Math.max(...this.colHeights);
       },
-      getMinColIndex(minHeight) { // 获取当前高度最小的列的表
-        let self = this;
-        for (let i = 0, len = self.colHeights.length; i < len; i++) {
-          if (self.colHeights[i] === minHeight) {
+      getMinColIndex(minHeight) { // 获取当前高度最小的列的 index
+        for (let i = 0, len = this.colHeights.length; i < len; i++) {
+          if (this.colHeights[i] === minHeight) {
             return i;
           }
         }
       },
-      getColWidth() { // 获取列宽度
-        this.colWidth = (this.waterfallWidth - this.boxRect.right * (this.maxColNum - 1)) / this.maxColNum;
-      }
-    },
-    watch: {
-      propData() {
-        this.showData = []; // 实际显示的图片尺寸数组
-        this.getColWidth(); // 获取列宽度
-        this.computeShow(); // 计算元素显示尺寸、位置
-      }
     }
   }
 </script>
