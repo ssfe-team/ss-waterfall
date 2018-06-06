@@ -50,7 +50,7 @@
         type: Number,
         default: 18
       },
-      // 容器矩形
+      // 元素边距
       boxRect: {
         type: Object,
         default() {
@@ -114,38 +114,6 @@
             }
           }
           if (cols === 2) { // 初始该占两列
-          /*
-            if (minColIndex === 0) {
-              if (this.colHeights[1] - this.colHeights[0] > this.maxDiff) {
-                cols = 1;
-              } else {
-                width = this.colWidth * 2 + this.boxRect.right * (cols - 1);
-                insertIndex = 0;
-                midColHeight = this.colHeights[1];
-              }
-            } else if (minColIndex === 1) {
-              if (this.colHeights[0] - this.colHeights[1] > this.maxDiff) {
-                if (this.colHeights[2] - this.colHeights[1] > this.maxDiff) {
-                  cols = 1;
-                } else {
-                  width = this.colWidth * 2 + this.boxRect.right * (cols - 1);
-                  insertIndex = 1;
-                  midColHeight = this.colHeights[2];
-                }
-              } else {
-                width = this.colWidth * 2 + this.boxRect.right * (cols - 1);
-                insertIndex = 0;
-                midColHeight = this.colHeights[0];
-              }
-            } else if (minColIndex === 2) {
-              if (this.colHeights[1] - this.colHeights[2] > this.maxDiff) {
-                cols = 1;
-              } else {
-                width = this.colWidth * 2 + this.boxRect.right * (cols - 1);
-                insertIndex = 1;
-                midColHeight = this.colHeights[1];
-              }
-            }*/
             let beforeIndex = minColIndex - 1,
               afterIndex = minColIndex + 1,
               beforeHeight = this.colHeights[beforeIndex],
@@ -173,7 +141,7 @@
           }
 
           height = width / ratio;
-          height = height < this.minHeight ? this.minHeight : height; // 设置最小高度
+          height = height < this.minHeight ? this.minHeight : height;
           left = (this.colWidth + this.boxRect.right) * insertIndex;
 
           switch (cols) {
@@ -195,13 +163,13 @@
           }
 
           // 存进显示数组
-          let size = {
+          let item = {
             width, height, top, left,
             sourceData: this.propData[i],
             index: i,
             style: {width: width + 'px', height: height + 'px', top: top + 'px', left: left + 'px'}
           };
-          this.showData.push(size);
+          this.showData.push(item);
         }
         this.maxHeight = this.getMaxColHeight()
       },
